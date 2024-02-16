@@ -3,8 +3,8 @@
 {% block title %}NFT{% endblock %}
 
 {% block content %}
-{% for n_f_t in n_f_ts %}
-{% if n_f_t.id == 1 %}
+{% for nft in nfts %}
+{% if nft.id == id %}
     <div class="rn-breadcrumb-inner ptb--30">
         <div class="container">
             <div class="row align-items-center">
@@ -34,7 +34,7 @@
                             <div class="nav rn-pd-nav rn-pd-rt-content nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                                 <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">
                                     <span class="rn-pd-sm-thumbnail">
-                                        <img src="{{ asset(asset(n_f_t.image)) }}" alt="Nft_Profile">
+                                        <img src="{{ asset(asset(nft.image)) }}" alt="Nft_Profile">
                                     </span>
                                 </button>
 
@@ -43,7 +43,7 @@
                             <div class="tab-content rn-pd-content" id="v-pills-tabContent">
                                 <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                                     <div class="rn-pd-thumbnail">
-                                        <img src="{{ asset( asset(n_f_t.image) ) }}" alt="Nft_Profile">
+                                        <img src="{{ asset( asset(nft.image) ) }}" alt="Nft_Profile">
                                     </div>
                                 </div>
 
@@ -57,7 +57,7 @@
                 <div class="col-lg-5 col-md-12 col-sm-12 mt_md--50 mt_sm--60">
                     <div class="rn-pd-content-area">
                         <div class="pd-title-area">
-                            <h4 class="title">{{ n_f_t.name }}</h4>
+                            <h4 class="title">{{ nft.name }}</h4>
                             <div class="pd-react-area">
                                 <div class="heart-count">
                                     <i data-feather="heart"></i>
@@ -431,18 +431,18 @@
                             <div class="place-bet-area">
                                 <div class="rn-bet-create">
                                     <div class="bid-list winning-bid">
-                                        <h6 class="title">Status : </h6>
+                                        <h6 class="title">Status : {{ nft.status }}</h6>
                                         <div class="top-seller-inner-one">
                                             <div class="top-seller-wrapper">
                                                 <div class="top-seller-content">
-                                                    <span class="heighest-bid">Price {{ n_f_t.price }}</span>
+                                                    <span class="heighest-bid">Price {{ nft.price }}</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
                                 </div>
-                                <button type="button" class="btn btn-primary-alta mt--30" data-bs-toggle="modal" data-bs-target="#placebidModal">Buy</button>
+                                <a href="{{ path('app_commande_new', {'id': nft.id}) }}" type="button" class="btn btn-primary-alta mt--30">Buy</a>
                             </div>
                         </div>
                     </div>

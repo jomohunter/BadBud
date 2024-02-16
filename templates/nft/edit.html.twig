@@ -1,13 +1,11 @@
-{% extends 'base.html.twig' %}
+{% extends 'basefront.html.twig' %}
 
 {% block title %}Edit NFT{% endblock %}
 
-{% block body %}
-    <h1>Edit NFT</h1>
+{% block content %}
 
-    {{ include('nft/_form.html.twig', {'button_label': 'Update'}) }}
+    <a href="{{ path('app_nft_show') }}">back to list</a>
 
-    <a href="{{ path('app_n_f_t_index') }}">back to list</a>
+{{ include('nft/form.html.twig', {'button_label': 'Update', 'show_delete_button': true}) }}
 
-    {{ include('nft/_delete_form.html.twig') }}
 {% endblock %}
