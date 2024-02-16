@@ -65,14 +65,13 @@ class CommandeController extends AbstractController
         $nft =   $entityManager->getRepository(NFT::class)->find($id);
 
 
-        $form = $this->createForm(CommandeType::class, $commande, [
-            'nft_price' => $nft->getPrice(),
-        ]);
+        $form = $this->createForm(CommandeType::class, $commande);
 
         $form->handleRequest($request);
 
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $commande->setTotal($nft->getPrice());
 
             $entityManager->flush();
 
