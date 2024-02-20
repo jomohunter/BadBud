@@ -1,0 +1,21 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+    <h1>Register</h1>
+
+    {{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm) }}          #{'attr': {'novalidate': 'novalidate'}}
+        {{ form_row(registrationForm.first_name) }}
+        {{ form_row(registrationForm.last_name) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Password'
+        }) }}
+        
+
+        <button type="submit" class="btn">Register</button>
+    {{ form_end(registrationForm) }}
+{% endblock %}

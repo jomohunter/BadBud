@@ -86,7 +86,7 @@ class CommandeController extends AbstractController
     }
     
 
-    #[Route('/{id}', name: 'app_commande_delete', methods: ['POST'])]
+    #[Route('/commande/{id}', name: 'app_commande_delete', methods: ['POST'])]
     public function delete(Request $request, Commande $cmd, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$cmd->getId(), $request->request->get('_token'))) {
