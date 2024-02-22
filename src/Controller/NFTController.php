@@ -21,6 +21,16 @@ class NFTController extends AbstractController
             'nfts' => $nFTRepository->findAll(),
         ]);
     }
+
+
+    #[Route('/showback', name: 'app_nft_showback', methods: ['GET'])]
+    public function showback(NFTRepository $nFTRepository): Response
+    {
+        return $this->render('nft/showback.html.twig', [
+            'nfts' => $nFTRepository->findAll(),
+        ]);
+    }
+
     #[Route('/list/{id}', name: 'app_nft_index', methods: ['GET'])]
     public function index(NFTRepository $nFTRepository, int $id): Response
     {
@@ -78,8 +88,10 @@ class NFTController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$nFT->getId(), $request->request->get('_token'))) {
         $commandes = $nFT->getCommande();
-        foreach($commandes as $commande){
-            $entityManager->remove($commande);
+        if ($commandes !== null) {
+            foreach($commandes as $commande) {
+                $entityManager->remove($commande);
+            }
         }
         
             $entityManager->remove($nFT);

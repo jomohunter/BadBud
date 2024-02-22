@@ -16,10 +16,25 @@ use Symfony\Component\Routing\Attribute\Route;
 class CartController extends AbstractController
 {
     #[Route('/', name: 'app_cart_index', methods: ['GET'])]
-    public function index(CartRepository $cartRepository): Response
+    public function index(Request $request, CartRepository $cartRepository, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('cart/index.html.twig', [
-            'carts' => $cartRepository->findAll(),
+        $session = $request->getSession();
+        $sessionId = $session->getId();
+
+        $existingCart = $entityManager->getRepository(Cart::class)->findOneBy(['session_id' => $sessionId]);
+        $nfts = $existingCart->getRelation();
+
+        if ($existingCart) {
+            $cart = new Cart();
+            $cart->setSessionId($sessionId);
+            $entityManager->persist($cart);
+            $entityManager->flush();
+        }
+    
+
+        return $this->render('cart/show.html.twig', [
+            'cart' => $existingCart,
+            'nfts' => $nfts,
         ]);
     }
 
@@ -53,42 +68,34 @@ class CartController extends AbstractController
         return $this->redirectToRoute('app_cart_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    
 
-    #[Route('/{id}', name: 'app_cart_show', methods: ['GET'])]
-    public function show(Cart $cart): Response
+    #[Route('', name: 'app_cart_deletenft', methods: ['GET','POST'])]
+    public function delete(Request $request, Cart $cart, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('cart/show.html.twig', [
-            'cart' => $cart,
-        ]);
-    }
 
-    #[Route('/{id}/edit', name: 'app_cart_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Cart $cart, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(CartType::class, $cart);
-        $form->handleRequest($request);
+        $session = $request->getSession();
+        $sessionId = $session->getId();
+        $id = $request->query->get('id'); 
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+        $nft = $entityManager->getRepository(NFT::class)->find($id);
 
+        if (!$nft) {
+            $this->addFlash('error', 'NFT not found.');
             return $this->redirectToRoute('app_cart_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('cart/edit.html.twig', [
-            'cart' => $cart,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_cart_delete', methods: ['POST'])]
-    public function delete(Request $request, Cart $cart, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$cart->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($cart);
-            $entityManager->flush();
+        $existingCart = $entityManager->getRepository(Cart::class)->findOneBy(['session_id' => $sessionId]);
+        if (!$existingCart) {
+            $this->addFlash('error', 'Cart not found.');
+            return $this->redirectToRoute('app_cart_index', [], Response::HTTP_SEE_OTHER);
         }
+
+        $existingCart->removeRelation($nft); 
+        $entityManager->persist($existingCart);
+        $entityManager->flush();
 
         return $this->redirectToRoute('app_cart_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    
 }

@@ -60,35 +60,39 @@ class CommandeController extends AbstractController
     }
 
 
-    #[Route('/commande/edit/{id}', name: 'app_commande_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Commande $commande, EntityManagerInterface $entityManager, int $id): Response
+    #[Route('/commande/edit', name: 'app_commande_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, EntityManagerInterface $entityManager): Response
     {
-       
-        $nfts =   $commande->getNfts();
+        $id = $request->query->get('id');
+        $commande = $entityManager->getRepository(Commande::class)->find($id);
+    
+        if (!$commande) {
+            throw $this->createNotFoundException('No commande found for id '.$id);
+        }
+    
+        $nfts = $commande->getNfts();
         $total = 0;
         foreach ($nfts as $nft) {
             $total += $nft->getPrice();
         }
+    
         $commande->setTotal($total);
-
+    
         $form = $this->createForm(CommandeType::class, $commande);
-
-        $form->handleRequest($request);
-
-
+        $form->handleRequest($request); // Make sure to handle the request
+    
         if ($form->isSubmitted() && $form->isValid()) {
-
             $entityManager->flush();
-
             return $this->redirectToRoute('app_Commande', [], Response::HTTP_SEE_OTHER);
         }
-
+    
         return $this->render('commande/edit.html.twig', [
-            'nft' => $nfts,
+            'nfts' => $nfts, // corrected variable name to match the template variable
             'commande' => $commande,
-            'form' => $form,
+            'form' => $form->createView(), // Ensure you call createView() when passing a form to Twig
         ]);
     }
+    
     
 
     #[Route('commande/{id}', name: 'app_commande_delete', methods: ['POST'])]
