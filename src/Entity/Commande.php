@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: CommandeRepository::class)]
 class Commande
@@ -103,4 +104,19 @@ class Commande
 
         return $this;
     }
+
+    
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload): void
+    {
+        if (strpos($this->Wallet, ' ') !== false) {
+            $context->buildViolation('The wallet address cannot contain spaces.')
+                    ->atPath('wallet')
+                    ->addViolation();
+        }
+    }
+
+    
 }

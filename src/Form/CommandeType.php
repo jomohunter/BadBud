@@ -43,11 +43,6 @@ class CommandeType extends AbstractType
                 ]),
             ],
         ])
-            ->add('total', HiddenType::class, [
-
-                'data' => $options['nft_price'],
-
-            ])
         ;
     }
 
@@ -56,7 +51,10 @@ class CommandeType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Commande::class,
             'nft_price' => null,
+            'csrf_protection' => false,
         ]);
+
+        
 }
 
 }

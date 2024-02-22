@@ -38,6 +38,7 @@
                             <div class="col-md-12">
                                 <div class="input-box pb--20">
                                     {{ form_row(form.Wallet) }}
+                                    {{ form_errors(form.Wallet) }} <!-- idid this in the entity file todo both type of constraints-->
                                 </div>
                             </div>
 
@@ -68,7 +69,6 @@
             </div>
         </div>
     </div>
-{{ form_row(form.total) }}
 
 {{ form_end(form) }}
 

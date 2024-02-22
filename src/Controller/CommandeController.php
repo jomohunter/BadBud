@@ -15,24 +15,26 @@ use Symfony\Component\Form\Form;
 
 class CommandeController extends AbstractController
 {
-    #[Route('/commande/add/{id}', name: 'app_commande_new', methods: ['GET', 'POST'])]
-    public function index(Request $request, EntityManagerInterface $entityManager, int $id): Response
+    #[Route('/commande/add', name: 'app_commande_new', methods: ['GET', 'POST'])]
+    public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
+
+        $id = $request->query->get('id');
         $commande = new Commande();
 
         $nft = $entityManager->getRepository(NFT::class)->find($id);
 
-        $form = $this->createForm(CommandeType::class, $commande, [
-            'nft_price' => $nft->getPrice(),
-        ]);
+        $commande->setTotal($nft->getPrice());
+        
+
+        $form = $this->createForm(CommandeType::class, $commande);
 
         $form->handleRequest($request);
-
 
         if ($form->isSubmitted() && $form->isvalid()){
             $entityManager->persist($commande);
             $entityManager->flush();
-
+            
             $nft->setCommande($commande);
             $entityManager->persist($nft);
             $entityManager->flush();
@@ -62,8 +64,12 @@ class CommandeController extends AbstractController
     public function edit(Request $request, Commande $commande, EntityManagerInterface $entityManager, int $id): Response
     {
        
-        $nft =   $entityManager->getRepository(NFT::class)->find($id);
-
+        $nfts =   $commande->getNfts();
+        $total = 0;
+        foreach ($nfts as $nft) {
+            $total += $nft->getPrice();
+        }
+        $commande->setTotal($total);
 
         $form = $this->createForm(CommandeType::class, $commande);
 
@@ -71,7 +77,6 @@ class CommandeController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $commande->setTotal($nft->getPrice());
 
             $entityManager->flush();
 
@@ -79,16 +84,23 @@ class CommandeController extends AbstractController
         }
 
         return $this->render('commande/edit.html.twig', [
-            'nft' => $nft,
+            'nft' => $nfts,
             'commande' => $commande,
             'form' => $form,
         ]);
     }
     
 
-    #[Route('/{id}', name: 'app_commande_delete', methods: ['POST'])]
+    #[Route('commande/{id}', name: 'app_commande_delete', methods: ['POST'])]
     public function delete(Request $request, Commande $cmd, EntityManagerInterface $entityManager): Response
     {
+        $nfts = $entityManager->getRepository(NFT::class)->findBy(['commande' => $cmd]);
+
+        foreach ($nfts as $nft) {
+            $nft->setCommande(null);
+            $entityManager->persist($nft);
+        }
+
         if ($this->isCsrfTokenValid('delete'.$cmd->getId(), $request->request->get('_token'))) {
             $entityManager->remove($cmd);
             $entityManager->flush();
