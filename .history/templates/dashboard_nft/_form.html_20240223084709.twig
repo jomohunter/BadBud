@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Project{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        
+
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+
+                <div class="mb-3">
+                    {{ form_label(form.nft.name, 'NFT Name', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.nft.name, {'attr': {'class': 'form-control', 'placeholder': 'Enter NFT name'}}) }}
+                    {{ form_errors(form.nft.name) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.nft.price, 'NFT Price', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.nft.price, {'attr': {'class': 'form-control', 'placeholder': 'Enter NFT price'}}) }}
+                    {{ form_errors(form.nft.price) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.status, 'NFT Status', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.status, {'attr': {'class': 'form-control', 'placeholder': 'Enter NFT status'}}) }}
+                    {{ form_errors(form.status) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.creationDate, 'NFT Creation Date', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.creationDate, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.creationDate) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.image, 'NFT Image', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.image, {'attr': {'class': 'form-control', 'placeholder': 'Enter NFT image URL'}}) }}
+                    {{ form_errors(form.image) }}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a href="{{ path('app_dashboard_n_f_t_index') }}" class="btn btn-secondary">Back to List</a>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

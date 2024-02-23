@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit NFT{% endblock %}
+
+{% block body %}
+    <h1>Edit NFT</h1>
+
+    {{ include('dashboard_nft/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_dashboard_n_f_t_index') }}">back to list</a>
+
+    {{ include('dashboard_nft/_delete_form.html.twig') }}
+{% endblock %}

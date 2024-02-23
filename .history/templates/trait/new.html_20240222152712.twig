@@ -1,0 +1,11 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title %}New Traits{% endblock %}
+
+{% block content %}
+    <h1style="margin-bottom: 20px; padding: 10px; text-align: center; "> </h1style>Create new Traits</h1>
+
+    {{ include('trait/_form.html.twig') }}
+
+    <a href="{{ path('app_trait_index') }}">back to list</a>
+{% endblock %}

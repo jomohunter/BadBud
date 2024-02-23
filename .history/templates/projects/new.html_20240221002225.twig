@@ -1,0 +1,12 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title %}New Project{% endblock %}
+
+{% block content %}
+
+    <h1 style="margin-bottom: 20px; padding: 10px; text-align: center; ">Create new Project</h1>
+
+    {{ include('projects/form.html.twig') }}
+
+    <a href="{{ path('app_projects') }}">back to list</a>
+{% endblock %}

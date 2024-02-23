@@ -1,0 +1,161 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title %}  {% endblock %}
+
+{% block content %}
+
+
+<div class="rn-breadcrumb-inner ptb--30">
+    <div class="container">
+
+        
+            
+            <div class="col-lg-6 col-md-6 col-12">
+                <ul class="breadcrumb-list">
+                    <li class="item"><a href="index.html">Home</a></li>
+                    <li class="separator"><i class="feather-chevron-right"></i></li>
+                    <li class="item current">Collection</li>
+                </ul>
+            </div>
+
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6 col-12" >
+                    <h6 class="title text-center text-md-start" style="padding-bottom: 20px;">{{ project.nom }}</h6>
+                    <p class="description">{{ project.description }}</p>
+                    <p class="category font-weight-bold">{{ project.category }}</p>
+                    <p class="date" style="font-size: 0.8rem; color: #666;"> Created: {{ project.DateDeCreation ? project.DateDeCreation|date('Y-m-d') : '' }}</p>
+                    <a href="{{ path('edit_projects', {'id': project.id}) }}" class="btn btn-primary " >Edit</a>
+                    <form action="{{ path('delete_projet', {'id': project.id}) }}"   method="post" onsubmit="return confirm('Are you sure you want to delete this project?')">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ project.id) }}">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="rn-collection-area rn-section-gapTop">
+    <div class="container">
+        <div class="row g-5">
+            <!-- start single collention -->
+
+            <div data-sal="slide-up" data-sal-delay="150" data-sal-duration="800" class="col-lg-4 col-xl-3 col-md-6 col-sm-6 col-12">
+
+                <a href="product-details.html" class="rn-collection-inner-one">
+                    <div class="collection-wrapper">
+                        <div class="collection-big-thumbnail">
+                            <img src="{{ asset('FrontOffice/assets/images/collection/collection-lg-01.jpg') }}" alt="Nft_Profile">
+                        </div>
+                        <div class="collenction-small-thumbnail">
+                            <img src="{{ asset('FrontOffice/assets/images/collection/collection-sm-01.jpg') }}" alt="Nft_Profile">
+                        </div>
+
+                        <div class="collection-deg">
+                            <h6 class="title"></h6>
+                        </div>
+                        <span class="items"></span>
+
+                    </div>
+                </a>
+                
+            </div>
+            <!-- End single collention -->
+            <div data-sal="slide-up" data-sal-delay="150" data-sal-duration="800" class="col-lg-4 col-xl-3 col-md-6 col-sm-6 col-12">
+
+                <a href="product-details.html" class="rn-collection-inner-one">
+                    <div class="collection-wrapper">
+                        <div class="collection-big-thumbnail">
+                            <img src="{{ asset('FrontOffice/assets/images/collection/collection-lg-01.jpg') }}" alt="Nft_Profile">
+                        </div>
+                        <div class="collenction-small-thumbnail">
+                            <img src="{{ asset('FrontOffice/assets/images/collection/collection-sm-01.jpg') }}" alt="Nft_Profile">
+                        </div>
+
+                        <div class="collection-deg">
+                            <h6 class="title"></h6>
+                        </div>
+                        <span class="items"></span>
+
+                    </div>
+                </a>
+                
+            </div>            <div data-sal="slide-up" data-sal-delay="150" data-sal-duration="800" class="col-lg-4 col-xl-3 col-md-6 col-sm-6 col-12">
+
+                <a href="product-details.html" class="rn-collection-inner-one">
+                    <div class="collection-wrapper">
+                        <div class="collection-big-thumbnail">
+                            <img src="{{ asset('FrontOffice/assets/images/collection/collection-lg-01.jpg') }}" alt="Nft_Profile">
+                        </div>
+                        <div class="collenction-small-thumbnail">
+                            <img src="{{ asset('FrontOffice/assets/images/collection/collection-sm-01.jpg') }}" alt="Nft_Profile">
+                        </div>
+
+                        <div class="collection-deg">
+                            <h6 class="title"></h6>
+                        </div>
+                        <span class="items"></span>
+
+                    </div>
+                </a>
+                
+            </div>            <div data-sal="slide-up" data-sal-delay="150" data-sal-duration="800" class="col-lg-4 col-xl-3 col-md-6 col-sm-6 col-12">
+
+                <a href="product-details.html" class="rn-collection-inner-one">
+                    <div class="collection-wrapper">
+                        <div class="collection-big-thumbnail">
+                            <img src="{{ asset('FrontOffice/assets/images/collection/collection-lg-01.jpg') }}" alt="Nft_Profile">
+                        </div>
+                        <div class="collenction-small-thumbnail">
+                            <img src="{{ asset('FrontOffice/assets/images/collection/collection-sm-01.jpg') }}" alt="Nft_Profile">
+                        </div>
+
+                        <div class="collection-deg">
+                            <h6 class="title"></h6>
+                        </div>
+                        <span class="items"></span>
+
+                    </div>
+                </a>
+                
+            </div>            <div data-sal="slide-up" data-sal-delay="150" data-sal-duration="800" class="col-lg-4 col-xl-3 col-md-6 col-sm-6 col-12">
+
+                <a href="product-details.html" class="rn-collection-inner-one">
+                    <div class="collection-wrapper">
+                        <div class="collection-big-thumbnail">
+                            <img src="{{ asset('FrontOffice/assets/images/collection/collection-lg-01.jpg') }}" alt="Nft_Profile">
+                        </div>
+                        <div class="collenction-small-thumbnail">
+                            <img src="{{ asset('FrontOffice/assets/images/collection/collection-sm-01.jpg') }}" alt="Nft_Profile">
+                        </div>
+
+                        <div class="collection-deg">
+                            <h6 class="title"></h6>
+                        </div>
+                        <span class="items"></span>
+
+                    </div>
+                </a>
+                
+            </div>  
+
+        </div>
+        <div class="row">
+            <div class="col-lg-12" data-sal="slide-up" data-sal-delay="550" data-sal-duration="800">
+                <nav class="pagination-wrapper" aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item"><a class="page-link active" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

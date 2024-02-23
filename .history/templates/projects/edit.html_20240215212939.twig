@@ -1,0 +1,13 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title%} edit project {% endblock %}
+
+
+{% block content%}
+
+    <a href="http://127.0.0.1:8000/projects/"> Back to list</a>
+
+    {{include('project/form.html.twig', {'button_label'})}}
+
+
+{% endblock %}

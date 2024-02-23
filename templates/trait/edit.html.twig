@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Traits{% endblock %}
+
+{% block body %}
+    <h1>Edit Traits</h1>
+
+    {{ include('trait/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_trait_index') }}">back to list</a>
+
+    {{ include('trait/_delete_form.html.twig') }}
+{% endblock %}

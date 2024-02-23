@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Traits index{% endblock %}
+
+{% block body %}
+    <h1>Traits index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Rarete</th>
+                <th>Type_de_trait</th>
+                <th>DateDeCreation</th>
+                <th>Couleur</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for trait in traits %}
+            <tr>
+                <td>{{ trait.id }}</td>
+                <td>{{ trait.Nom }}</td>
+                <td>{{ trait.rarete }}</td>
+                <td>{{ trait.typeDeTrait }}</td>
+                <td>{{ trait.DateDeCreation ? trait.DateDeCreation|date('Y-m-d') : '' }}</td>
+                <td>{{ trait.Couleur }}</td>
+                <td>
+                    <a href="{{ path('app_trait_show', {'id': trait.id}) }}">show</a>
+                    <a href="{{ path('app_trait_edit', {'id': trait.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_trait_new') }}">Create new</a>
+{% endblock %}

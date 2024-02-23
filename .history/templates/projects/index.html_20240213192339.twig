@@ -1,0 +1,6 @@
+public function index(NFTRepository $nFTRepository): Response
+{
+    return $this->render('nft/index.html.twig', [
+        'n_f_ts' => $nFTRepository->findAll(),
+    ]);
+}

@@ -1,0 +1,12 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title %}New NFT{% endblock %}
+
+{% block content %}
+
+    <h1 style="margin-bottom: 20px; padding: 10px; text-align: center; ">Create new NFT</h1>
+
+    {{ include('nft/_form.html.twig') }}
+
+    <a href="{{ path('app_n_f_t_index') }}">back to list</a>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title %}Traits index{% endblock %}
+
+{% block content %}
+    <h1>Traits index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Rarete</th>
+                <th>Type_de_trait</th>
+                <th>DateDeCreation</th>
+                <th>Couleur</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for trait in traits %}
+            <tr>
+                <td>{{ trait.id }}</td>
+                <td>{{ trait.Nom }}</td>
+                <td>{{ trait.rarete }}</td>
+                <td>{{ trait.typeDeTrait }}</td>
+                <td>{{ trait.DateDeCreation ? trait.DateDeCreation|date('Y-m-d') : '' }}</td>
+                <td>{{ trait.Couleur }}</td>
+                <td>
+                    <a href="{{ path('app_trait_show', {'id': trait.id}) }}">show</a>
+                    <a href="{{ path('app_trait_edit', {'id': trait.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="row plr--70 padding-control-edit-wrapper pl_md--0 pr_md--0 pl_sm--0 pr_sm--0">
+        <div class="col-lg-3 col-md-3 col-sm-12">
+            <!-- Start tabs area -->
+            <nav class="left-nav rbt-sticky-top-adjust-five">
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true"><i class="feather-edit"></i>Edit Profile Image</button>
+                    <button class="nav-link" id="nav-home-tabs" data-bs-toggle="tab" data-bs-target="#nav-homes" type="button" role="tab" aria-controls="nav-homes" aria-selected="false"><i class="feather-user"></i>Personal Information</button>
+                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false"> <i class="feather-unlock"></i>Change Password</button>
+                    <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false"><i class="feather-bell"></i>Notification Setting</button>
+                </div>
+            </nav>
+            <!-- End tabs area -->
+        </div>
+
+    <a href="{{ path('app_trait_new') }}">Create new</a>
+{% endblock %}
