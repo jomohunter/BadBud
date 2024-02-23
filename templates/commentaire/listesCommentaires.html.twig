@@ -1,0 +1,351 @@
+{% extends 'basefront.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <!-- CSS ============================================ -->
+    <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/vendor/slick.css">
+    <link rel="stylesheet" href="assets/css/vendor/slick-theme.css">
+    <link rel="stylesheet" href="assets/css/vendor/nice-select.css">
+    <link rel="stylesheet" href="assets/css/plugins/feature.css">
+    <link rel="stylesheet" href="assets/css/plugins/jquery-ui.min.css">
+    <link rel="stylesheet" href="assets/css/vendor/odometer.css">
+
+    <!-- Style css -->
+    <link rel="stylesheet" href="FrontOffice/assets/css/style.css">
+{% endblock %}
+
+{% block content %}
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                color: #f1e5e5; /* Set text color */
+              }
+              
+             
+              
+              .community-content-box {
+                border-radius: 12px;
+                box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+                padding: 30px;
+                margin-bottom: 30px;
+              }
+              
+              .community-content {
+                line-height: 1.6;
+                padding: 10px;
+
+              }
+              
+              .blog-title {
+                font-size: 32px;
+                font-weight: bold;
+                color: #ffffff; /* Set a darker color for the title */
+                margin-bottom: 20px;
+              }
+              
+              .comment-content {
+                font-size: 16px;
+                padding: 30px; /* Added padding */
+            
+                margin-bottom: 20px;
+                color: #c2baba; /* Set a darker color for the title */
+            
+                border-left: 4px solid #007bff; /* Use a bold color for the border */
+            }
+            
+            .date {
+                display: flex;
+                align-items: center;
+                font-size: 14px;
+                color: #777;
+            }
+            
+            .date i.feather-watch {
+                margin-right: 5px;
+                color: #999;
+            }
+            
+            .date span {
+                font-weight: bold;
+            }
+            
+            .form-container {
+                background-color: #ffffff;
+                padding: 30px; /* Added padding */
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                /* Add a subtle shadow */
+            }
+            
+            .form-label {
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+            
+            .form-control {
+                width: 100%;
+                padding: 15px;
+                /* Increase padding for better input appearance */
+                font-size: 16px;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                transition: border-color 0.3s;
+            }
+            
+            .form-control:focus {
+                outline: none;
+                border-color: #007bff;
+            }
+            
+            .form-control::placeholder {
+                color: #999;
+            }
+            .forum-input-ans-wrapper {
+                padding: 30px; /* Added padding */
+            }
+            
+            .comment-form {
+                padding: 10px; /* Optional: Additional padding for the comment form */
+            }
+            
+              .btn {
+                padding: 15px 30px;
+                /* Increase padding for better button appearance */
+                font-size: 16px;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+              }
+              
+              .btn-primary {
+                margin-bottom: 10px;
+                background-color: #007bff;
+                color: #fff;
+              }
+              
+              .btn-primary:hover {
+                background-color: #0056b3;
+              }
+              .btn-success {
+                display: inline-block;
+                margin-bottom: 40px;
+                background-color: #28a745; /* Green color */
+                color: #fff; /* White text color */
+                padding: 10px 20px; /* Padding for button */
+                border: none; /* Remove border */
+                border-radius: 5px; /* Rounded corners */
+                text-decoration: none; /* Remove underline */
+                transition: background-color 0.3s; /* Smooth transition */            }
+              
+        </style>
+        <hr>
+
+        <!-- Community single box -->
+        <div class="community-content-box">
+            <div class="community-content">
+                <a href="{{ url('app_afficher_actualite') }}"><button type="button" class="btn btn-success">Retour</button></a>
+
+                <h1 class="blog-title">{{ actualite.titre }}</h1>
+                <div class="comment-content">{{ actualite.contenu }}</div> 
+                <br>
+                <img class="community-img" src="https://techiia.com/assets/images/6131554beef00/nft_1320x742.jpeg" alt="Nft_Community-image">
+                <hr>
+        
+                <div class="rn-community-footer">
+                    <div class="community-reaction">
+                        <a href="#" class="likes">
+                            <i class="feather-heart"></i>
+                            <span>2.1k</span>
+                        </a>
+                        <a href="post_details.html" class="comments">
+                            <i class="feather-message-circle"></i>
+                            <span>257 Comments</span>
+                        </a>
+                        <span class="views">
+                            <i class="feather-eye"></i>
+                            <span>257 Views</span>
+                        </span>
+                        <span class="time">
+                            <i class="feather-clock"></i>
+                            <span>2 days ago</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+                </div>
+                <br>
+                <div class="answer">
+                    <a href="#" class="btn btn-primary-alta rounded">Enter your comment:</a>
+                </div>
+            </div>
+        </div>
+        <!-- end Community single box -->
+
+       <!-- Display validation errors next to the author field -->
+{% if form_errors(form.author) %}
+<div class="error-message">
+    {{ form_errors(form.author) }}
+</div>
+{% endif %}
+
+<div class="forum-input-ans-wrapper">
+    <img src="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg" alt="Nft-Profile">
+    <div class="comment-form">
+        {{ form_start(form, {'attr': {'id': 'comment-form'}}) }}
+        <div class="mb-3">
+            {{ form_label(form.author, 'Your Name', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.author, {'attr': {'class': 'form-control', 'id': 'author'}}) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.contenu, 'Your Comment', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.contenu, {'attr': {'class': 'form-control', 'id': 'comment', 'placeholder': 'Enter'}}) }}
+        </div>
+        <button type="submit" class="btn btn-primary">Add Comment</button>
+        {{ form_end(form) }}
+    </div>
+</div>
+
+
+
+
+        <!-- answers box -->
+        <div class="forum-ans-box">
+            {% for commentaire in commentaires %}
+                <!-- single answer -->
+                <div class="forum-single-ans">
+                    <div class="ans-header">
+                        <a href="author.html"><img src="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg" alt="Nft-Profile"></a>
+
+                        <a href="author.html">
+                            <p class="comment-author">{{ commentaire.author }}</p>
+                        </a>
+                        <div class="date">
+                            <i class="feather-watch"></i>
+                            <span>{{ commentaire.dateContenu|date('Y-m-d H:i:s') }}</span>
+                        </div>
+                        
+                    </div>
+                    <div class="ans-content">
+                        <p class="comment-content">{{ commentaire.contenu }}</p>
+                        <div class="reaction">
+                            <a href="#" class="like">
+                                <i class="feather-thumbs-up"></i>
+                                <span>27 Like</span>
+                            </a>
+                            <a href="#" class="dislike">
+                                <i class="feather-thumbs-down"></i>
+                                <span>27 dislike</span>
+                            </a>
+                        </div>
+                        <hr class="form-ans-separator">
+                    </div>
+                </div>
+            {% else %}
+                <!-- Affichage si aucun commentaire n'est disponible -->
+                <p>Aucun commentaire disponible pour cette actualité.</p>
+            {% endfor %}
+        </div>
+        <!-- end answers box -->
+
+    </div>
+
+    <script>
+        function validateForm() {
+            var author = document.getElementById('author').value.trim();
+            var comment = document.getElementById('comment').value.trim();
+            var authorError = document.getElementById('author-error');
+            var commentError = document.getElementById('comment-error');
+            var isValid = true;
+
+            authorError.innerHTML = '';
+            commentError.innerHTML = '';
+
+            if (author === '') {
+                authorError.innerHTML = 'Author cannot be blank';
+                isValid = false;
+            } else if (author.length < 2 || author.length > 100) {
+                authorError.innerHTML = 'Author must be between 2 and 100 characters long';
+                isValid = false;
+            }
+
+            if (comment === '') {
+                commentError.innerHTML = 'Comment cannot be blank';
+                isValid = false;
+            } else if (comment.length < 6 || comment.length > 1000) {
+                commentError.innerHTML = 'Comment must be between 10 and 1000 characters long';
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // JavaScript for handling comment submission
+        document.getElementById('forum-input-ans-wrapper').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Validate form
+            if (!validateForm()) {
+                return; // Exit if form validation fails
+            }
+
+            // Get form values
+            var author = document.getElementById('author').value;
+            var comment = document.getElementById('comment').value;
+
+            // Construct new comment HTML
+            var newComment = `
+                <div class="forum-ans-box">
+                    <div class="comment-author">${author}</div>
+                    <div class="comment-content">${comment}</div>
+                </div>
+            `;
+
+            // Append new comment to comments container
+            document.getElementById('comments-container').insertAdjacentHTML('beforeend', newComment);
+
+            // Clear form fields
+            document.getElementById('author').value = '';
+            document.getElementById('comment').value = '';
+        });
+
+
+        document.getElementById('comment-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+          
+            var authorInput = document.getElementById('author');
+            var commentInput = document.getElementById('comment');
+          
+            // Simple validation example
+            if(authorInput.value.trim() === '') {
+              displayErrorMessage('Please enter your name.');
+              return false;
+            }
+          
+            if(commentInput.value.trim() === '') {
+              displayErrorMessage('Please enter your comment.');
+              return false;
+            }
+          
+            // If all validation passes, you can submit the form
+            alert('Form submitted successfully!');
+            // this.submit(); // Uncomment this line to submit the form
+          });
+          
+          function displayErrorMessage(message) {
+            var errorMessageElement = document.createElement('div');
+            errorMessageElement.classList.add('error-message');
+            errorMessageElement.textContent = message;
+          
+            var commentForm = document.querySelector('.comment-form');
+            commentForm.prepend(errorMessageElement);
+          }
+          
+    </script>
+
+{% endblock %}

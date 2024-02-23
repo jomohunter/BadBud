@@ -1,0 +1,102 @@
+{% extends 'basefront.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .container-xxl {
+            padding-left: 25px; 
+            padding-right: 25px; /* Adjust the value as needed */
+            
+           
+            
+            .news-header {
+                color: #fff; /* Text color */
+                padding: 20px; /* Adjust padding as needed */
+
+                font-size: 36px; /* Font size */
+                text-align: center; /* Text alignment */
+                text-transform: uppercase; /* Convert text to uppercase */
+                letter-spacing: 2px; /* Adjust letter spacing */
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add shadow effect */
+            }
+            
+        }
+    </style>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon.png') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/vendor/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/vendor/slick.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/vendor/slick-theme.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/vendor/nice-select.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/plugins/feature.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/plugins/jquery-ui.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/vendor/odometer.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+
+{% endblock %}
+
+{% block content %}
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <!-- Parallax container with news header -->
+        <div class="parallax">
+            <h3 class="news-header">Latest NFT news</h3>
+        </div>
+        
+        <div class="container"></div>
+
+        <div class="row">
+            {% for actualite in actualites %}
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                    <div class="rn-blog">
+                        <div class="inner">
+                            <div class="thumbnail">
+                                <a href="{{ path('app_afficher_com', {'id': actualite.id}) }}">
+                                    <img class="news-image" data-news-id="{{ actualite.id }}" src="https://fr.linedata.com/sites/default/files/inline-images/NFT-Site_0.jpg" alt="News Image">
+                                </a>
+                            </div>
+                            <div class="content">
+                                <div class="category-info">
+                                    <div class="category-list">
+                                        <a href="{{ path('app_afficher_com', {'id': actualite.id}) }}">
+                                            <span class="category-badge">{{ actualite.categorie }}</span>
+                                        </a>
+                                    </div>
+                                    <div class="meta">
+                                        <span><i class="feather-clock"></i> </span>
+                                        <td>{{ actualite.datePublication|date('d-m-Y H:i') }}</td>
+                                    </div>
+                                </div>
+                                <h4 class="title"><a href="{{ path('app_afficher_com', {'id': actualite.id}) }}"><i class="feather-arrow-up-right"></i></a></h4>
+                                <h5 class="card-title">{{ actualite.titre }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var images = document.querySelectorAll(".news-image");
+            images.forEach(function(image) {
+                var newsId = image.getAttribute("data-news-id");
+                var randomImageNumber = Math.floor(Math.random() * 8) + 2; // Random number from 2 to 9
+                image.src = "{{ asset('FrontOffice/assets/images/blog/blog-') }}" + randomImageNumber + ".jpg";
+            });
+        });
+  // Using GSAP for a more impressive animation
+gsap.from(".news-header", {
+    opacity: 0,
+    y: -50,
+    duration: 1.5,
+    ease: "power4.out",
+    delay: 0.5
+});
+
+
+    </script>
+{% endblock %}
