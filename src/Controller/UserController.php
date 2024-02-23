@@ -10,6 +10,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Bundle\SecurityBundle\Security;
+
 
 #[Route('/user')]
 class UserController extends AbstractController
@@ -50,6 +53,13 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/profile', name: 'profile_user')]
+    public function profile(): Response
+    {
+        return $this->render('user/profile.html.twig');
+    }
+
+
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
@@ -68,14 +78,72 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
+    #[Route('/user/delete/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $entityManager->remove($user);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    // ...  
+    #[Route('/ban/{id}', name: 'banUser')]
+
+    public function banUser(EntityManagerInterface $entityManager, $id): Response
+    {
+        $currentUser = $this->getUser();
+        if (!$currentUser) {
+            return $this->redirectToRoute('app_login');
+        }
+        if ($currentUser->getRoles() == ["ROLE_ADMIN"]) {
+            $user = $entityManager->getRepository(User::class)->find($id);
+            $user->setIsBanned(true);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('all_users');
+        } else {
+            return $this->redirectToRoute('Read_User');
+        }
+    }
+
+    #[Route('/unban/{id}', name: 'unban')]
+    public function unbanUser(EntityManagerInterface $entityManager, $id): Response
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+        if ($user->getRoles() == ["ROLE_ADMIN"]) {
+            $user = $entityManager->getRepository(User::class)->find($id);
+            $user->setIsBanned(false);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('all_users');
+        } else {
+            return $this->redirectToRoute('Read_User');
+        }
+    }
+
+    #[Route('/User/Status/{id}', name: 'Status')]
+    public function DisableOrEnableUser(EntityManagerInterface $em, $id): Response
+    {
+        $repo = $em->getRepository(User::class);
+        $User = $repo->find($id);
+    
+        if ($User->getStatus() === 'enabled') {
+            $User->setStatus('disabled');
+        } elseif ($User->getStatus() === 'disabled') {
+            $User->setStatus('enabled');
+        }
+    
+        $em->persist($User);
+        $em->flush();
+    
+        return $this->redirectToRoute('Read_User');
+    }
+
+
 }

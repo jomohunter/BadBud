@@ -10,7 +10,7 @@
                     <div class="form-wrapper-one registration-area">
                         <h4>Sign up</h4>
                         <form method="post">
-                            {{ form_start(registrationForm) }}
+                            {{ form_start(registrationForm, {'attr': {'novalidate': 'novalidate'}}) }}
                             <div class="mb-5">
                                 <label for="firstName" class="form-label">First name</label>
                                 {{form_widget(registrationForm.first_name) }}

@@ -35,6 +35,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isBanned = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $status = "enabled";
+
+
     
 
     public function getId(): ?int
@@ -74,6 +81,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
+        
     }
 
     public function setRoles(array $roles): static
@@ -127,6 +135,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastName(string $last_name): static
     {
         $this->last_name = $last_name;
+
+        return $this;
+    }
+
+    public function isIsBanned(): ?bool
+    {
+        return $this->isBanned;
+    }
+
+    public function setIsBanned(?bool $isBanned): static
+    {
+        $this->isBanned = $isBanned;
+
+        return $this;
+    }
+
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

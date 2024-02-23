@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\SecurityBundle\Security;
+
+
 #use Symfony\Component\Notifier\TexterInterface; TexterInterface $texter /UserRepository $repo,
 
 
@@ -17,14 +19,13 @@ class LoginController extends AbstractController
     #[Route('/afterlogin', name: 'afterlogin')]
     public function test( Security $security): Response
     {
-        
         if ($security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('Read_User');
         }
         if ($security->isGranted('ROLE_USER')) {
             return $this->render('login/login_user.html.twig');
         }
-        #return $this->redirectToRoute('app_login');
+        return $this->redirectToRoute('afterlogin');
     }
 
     #[Route('/Read', name: 'Read_User')]
@@ -39,6 +40,6 @@ class LoginController extends AbstractController
         if ($security->isGranted('ROLE_USER')) {
             return $this->redirectToRoute('afterlogin');
         }
-        return $this->redirectToRoute('app_login');
+        return $this->redirectToRoute('Read_User');
     }
 }

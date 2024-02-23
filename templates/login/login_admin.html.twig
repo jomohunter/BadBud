@@ -3,46 +3,49 @@
 
 
 <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Frist Name</th>
-                                            <th>Last Name</th>
-                                            <th>Roles</th>
-                                            <th>Email</th>
-                                            <th>Password</th>
-                                        </tr>
-                                    </thead>
-                                    
-                                    <tbody>
-                                    {% for User in users %}
-                                        
-                                    
-                                        <tr>
-                                            <td>{{User.getFirstname()}}</td>
-                                            <td>{{User.getLastname()}}</td>
-                                            <td>
-                                                {% for role in User.getRoles() %}
-                                                    {{ role }}<br>
-                                                {% endfor %}
-                                            </td>
-                                            <td>{{User.email}}</td>
-                                            <td>{{User.password}}</td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    
-
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Users-Data-Tables</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Roles</th>
+                        <th>Email</th>
+                        <th>Actions</th> <!-- New column for actions -->
+                    </tr>
+                </thead>
                 
-                <!-- /.container-fluid -->
-
+                <tbody>
+                    {% for User in users %}
+                    <tr>
+                        <td>{{ User.getFirstname() }}</td>
+                        <td>{{ User.getLastname() }}</td>
+                        <td>
+                            {% for role in User.getRoles() %}
+                                {{ role }}<br>
+                            {% endfor %}
+                        </td>
+                        <td>{{ User.email }}</td>
+                        <td>
+                            <a href="{{path('Status',{'id':User.id})}}">{{User.getStatus}}</a>
+                        
+                            <form action="{{ path('app_user_delete', {'id': User.id}) }}" method="post">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ User.id) }}">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                            <a href="{{ path('app_user_edit', {'id': User.id}) }}" class="btn btn-primary">Edit</a>
+                        </td>
+                    </tr>
+                    
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
+
 {% endblock %}
